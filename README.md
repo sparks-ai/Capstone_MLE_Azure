@@ -1,4 +1,4 @@
-# Operationalizing Machine Learning
+# Capstone project Azure Machine Learning Engineer 
 
 ## Table of Contents  
 [Overview](#overview)  
@@ -11,7 +11,7 @@
 <a name="overview"/>
 
 ## Overview
-This project is part of the Udacity Azure ML Nanodegree. The dataset contains data about financial and personal details of customers of a bank. Based on this data, Azure will be used to configure a cloud-based machine learning production model, deploy it, and finally consume it. Besides, a pipeline will be created, published and consumed. Some of the printscreens are unclear. This is a result of the Virtual Machine used.   
+This project is part of the Udacity Azure ML Nanodegree. The dataset contains data about house prices and characteristics. Based on this data, Azure will be used to first create a scikit-learn KNeighborsRegressor, where two hyperparameters (n_neighbors and leaf_size) will be tuned by using Azure's HyperDrive. Next, the same dataset is served to AutoML to configure a cloud-based machine learning production model, deploy it (because the performance of this model is better than the tuned KNeighborsRegressor model), and finally consume it. Besides, a pipeline will be created, published and consumed. Some of the printscreens are unclear. This is a result of the Virtual Machine used.   
 <br>
 
 <a name="architecture"/>
