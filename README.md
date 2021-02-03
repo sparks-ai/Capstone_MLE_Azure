@@ -17,10 +17,10 @@ This project is part of the Udacity Azure ML Nanodegree. The dataset contains da
 <a name="architecture"/>
 
 ## Architectural Diagram
-The steps to take are visualized in the figure below.
+The steps to take are visualized in the figure below (source: taken from the Udacity Azure Machine Learning Engineer Nanodegree, Capstone project description).
 <br>
 <br>
-![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/master/Images/capstone-diagram_Udacity.png)
+![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/capstone-diagram_Udacity.png)
 <br>
 
 <a name="key_steps"/>
