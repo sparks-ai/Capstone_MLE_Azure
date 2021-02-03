@@ -1,9 +1,9 @@
 # Capstone project Azure Machine Learning Engineer 
 
 ## Table of Contents  
-[Overview](#overview)  
+[Dataset and overview](#overview)  
 [Scikit-learn and hyperparameter tuning](#hyperdrive) <br> 
-[AutoML key steps](#key_steps) <br> 
+[AutoML steps](#key_steps) <br> 
 [Screen Recording](#recording) <br>
 [Future improvements](#future) <br>
 [Standout Suggestions](#standout) <br>
@@ -37,7 +37,7 @@ First, I chose to train a KNeighborsRegressor model by using Scikit-learn. The r
 <br>
 
 ### Results
-The best resulting KNeighborsRegressor model had as hyperparameters a value for n_neighbors of 2 and for leaf_size of 42. This is interesting as it means being very local (given the amount for n_neighbors) but achieving complexity on this local level by using many variables. In literature, the mean average error (MAE) is often used as a metric for evaluating results of house price prediciton algorithms. For this model, the MAE is 525.5451960245264. 
+The best resulting KNeighborsRegressor model had as hyperparameters a value for n_neighbors of 2 and for leaf_size of 42. This is interesting as it means being very local (given the amount for n_neighbors) but achieving complexity on this local level by using many variables. In literature, the mean average error (MAE) is often used as a metric for evaluating results of house price prediciton algorithms. For this model, the MAE is 525.55. 
 This model could potentially be improved by broadening the hyperparameter space (e.g. n_neighbors between 1 and 10 and leaf_size between 15 and 80). Also, there are more hyperparameters than could have been tuned, e.g. the algorithm (auto vs. ball_tree vs kd_tree vs brute), the power parameter for the Minkowski metric and the distance metric to use.  
 <br>
 <br>
@@ -67,8 +67,8 @@ Model registered:
 
 <a name="key_steps"/>
 
-## AutoML Key Steps
-The Key steps follow the architectural diagram and provide more details via screenshots. 
+## AutoML steps
+This section will highlight all steps for the AutoML model, as well as for publishing and pipeline endpoint (as standout suggestion).
 <br>
 
 ### Authentication
@@ -76,77 +76,75 @@ The Azure Machine Learning Extension needs to be installed in order to interact 
 <br>
 
 ### AutoML Experiment
-The Bankmarketing dataset is uploaded and a compute cluster (Standard_DS12_v2 with 1 as the number of mininimum nodes) is created in order to configure an AutoML experiment. The AutoML experiment is a classification problem with a yes/no response. The exit criteria are such that the default 3 hours are set to 1 and the concurrency is set from default ot 5. The reason for this is that the focus is on operationalizing machine learning rather than achieving the best possible model outcomes. The screenshots below show that the Bankmarketing dataset is available (one was preloaded and I wanted to upload it myself which is the reason for 2 datasets), the AutoML experiment is completed and the resulting best model.
+The dataset is uploaded and a compute cluster is created in order to configure an AutoML experiment. The AutoML experiment is a regression problem with a numeric response. The exit criteria are such that the default 3 hours are left as is and the concurrency is set from default to 5. The reason for this is that the dataset is relatively small, but I want to be sure to get the best possible model. The screenshots below show that the dataset is available, the AutoML experiment is completed and the resulting best model.
 <br>
 <br>
-![alt text](https://github.com/sparks-ai/MLOps_Azure/blob/master/Images/AutoML_Registered_Datasets.png)
+![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/Dataset_active.png)
 <br>
-![alt text](https://github.com/sparks-ai/MLOps_Azure/blob/master/Images/AutoML_experiment_completed_2.png)
+![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/Best_model1.png)
 <br>
-![alt text](https://github.com/sparks-ai/MLOps_Azure/blob/master/Images/AutoML_best_model1.png)
+![alt text](https://github.com/sparks-ai/MLOps_Azure/blob/master/Images/AutoML_best_model2.png)
+<br>
+![alt text](https://github.com/sparks-ai/MLOps_Azure/blob/master/Images/AutoML_best_model3.png)
 <br>
 
+### Results
+The best resulting model is a VotingEnsemble, which is a combination of the other top-performing algorithms. The MAE for this ensemble is 292.83, which is substantially lower than the MAE of 525.55 for the tuned KNeighborsRegressor model.  
+This model could potentially be improved by including deep learning models as well within AutoML and by adding extra input features to the dataset because quite complex algorithms are on top. 
+
 ### Deployment
-Now that the experiment is completed and the best model is selected (the VotingEnsemble with a accuracy of 91.65%), it can be deployed into production. The voting ensemble is an ensemble learner that takes an "average" of the other top-performing models. Within Azure Machine Learning Studio, this model can be clicked and deployed with the click on a button. Deploying it will allow to interact with the HTTP API service and interact with the model by sending data over POST requests. Within the deployment settings, authentication is enabled and the model is deployed by means of an Azure Container Instance (ACI). The screenshot below shows the deployment settings for the model.    
+Now that the experiment is completed and the best model is selected (the VotingEnsemble), it can be deployed into production. The voting ensemble is an ensemble learner that takes an "average" of the other top-performing models. Within Azure Machine Learning Studio, this model can be clicked and deployed with the click on a button. Deploying it will allow to interact with the HTTP API service and interact with the model by sending data over POST requests. Within the deployment settings, authentication is enabled and the model is deployed by means of an Azure Container Instance (ACI). The screenshot below shows the deployment settings for the model.    
 <br>
 <br>
-![alt text](https://github.com/sparks-ai/MLOps_Azure/blob/master/Images/Deployment.png)
+![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/Endpoint_model.png)
 <br>
 
 ### Logging
-In order to retrieve logs, Application Insights has been enabled. This can be done in two ways: either as part of the deploy settings (checkbox) or afterwards via the terminal. For the last option, the az needs to be installed as well as the Python SDK for Azure. The below screenshots show that Application Insights are enabled and it shows the output of logs (a Python script). 
+In order to retrieve logs, Application Insights has been enabled. This can be done in two ways: either as part of the deploy settings (checkbox) or afterwards via the terminal. For the last option, the az needs to be installed as well as the Python SDK for Azure. The below screenshots show that Application Insights are enabled. 
 <br>
 <br>
-![alt text](https://github.com/sparks-ai/MLOps_Azure/blob/master/Images/ApplicationInsights_enabled.png)
-<br>
-![alt text](https://github.com/sparks-ai/MLOps_Azure/blob/master/Images/LogsPY.png)
+![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/Logging.png)
 <br>
 
 ### Documentation
 Swagger documentation helps in explaining what the deployed model needs as input in order to deliver a valid response. For the deployed model, a Swagger JSON file can be downloaded from within Azure (within the Endpoints section by clicking on the deployed model). There are two important parts of the Swagger documentation: a swagger.sh file that downloads the latest Swagger container and a serve.py file that will start a Python server. All three files need to be in the same directory. When Swagger runs on localhost, it can be accessed via the webbrowser. The screenshots below show that Swagger is running on localhost. 
 <br>
 <br>
-![alt text](https://github.com/sparks-ai/MLOps_Azure/blob/master/Images/Swagger_contents1.png)
+![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/Swagger1.png)
 <br>
-![alt text](https://github.com/sparks-ai/MLOps_Azure/blob/master/Images/Swagger_contents2.png)
-<br>
-![alt text](https://github.com/sparks-ai/MLOps_Azure/blob/master/Images/Swagger_contents3.png)
+![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/Swagger2.png)
 <br>
 
 ### Consuming model endpoints
-When the model is deployed, the scoring_uri and the key can be copied from Azure and pasted in the endpoint.py file. The endpoint.py file contains a JSON payload (2 cases where all the independent variables are provided and which can be used to derive inference on). The endpoint.py file can be executed in the terminal. The first screenshot below shows the endpoint.py script that is running against the API and producing JSON output (data.json file in the directory). In order to load-test the model, the Apache Benchmark commandline tool is installed. The benchmark.sh file is run and the the result of that is provided in the second screenshot below.  
+When the model is deployed, the scoring_uri and the key can be copied from Azure and pasted in the endpoint.py file. The endpoint.py file contains a JSON payload (2 cases where all the independent variables are provided and which can be used to derive inference on). The endpoint.py file can be executed in the terminal. The screenshots below shows the endpoint.py script that is running against the API and producing JSON output (data.json file in the directory).  
 <br>
 <br>
-![alt text](https://github.com/sparks-ai/MLOps_Azure/blob/master/Images/EndpointPY_results.png)
+![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/REST_endpoint_URL.png)
 <br>
-![alt text](https://github.com/sparks-ai/MLOps_Azure/blob/master/Images/ApacheBenchmark.png)
+![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/Data_sent_to_model_endpoint.png)
 <br>
 
 ### Create, Publish and Consume a Pipeline
-Apart from mainly clicking around in Azure Machine Learning Studio, we can programmatically achieve the same by means of using the Python SDK. A Jupyter notebook is provided which is adjusted here and there. This notebook is available in the directory with the name "aml-pipelines-with-automated-machine-learning-step-total2.ipynb". Please have a look to see the documentation and the resulting output. The steps in this notebook are: creating an experiment in an existing workspace, creating or attaching an existing AmlCompute to a workspace, defining data loading in a TabularDataset, configuring AutoML using AutoMLConfig, using AutoMLStep, training the model using AmlCompute, exploring the results and testing the best fitted model. The screenshots below show that the pipeline has been created, there is a pipeline endpoint, the Bankmarketing dataset with the AutoML module is there (third one added to the two already there), the REST endpoint and a status of active, the Jupyter Notebook widget output and the ML studio showing the scheduled run.  
+Apart from mainly clicking around in Azure Machine Learning Studio, we can programmatically achieve the same by means of using the Python SDK. A Jupyter notebook is provided which is adjusted here and there. This notebook is available in the directory. Please have a look to see the documentation and the resulting output. The steps in this notebook are: creating an experiment in an existing workspace, creating or attaching an existing AmlCompute to a workspace, defining data loading in a TabularDataset, configuring AutoML using AutoMLConfig, using AutoMLStep, training the model using AmlCompute, exploring the results and testing the best fitted model. The screenshots below show that the pipeline has been created, there is a pipeline endpoint, the REST endpoint and a status of active, the Jupyter Notebook widget output and the ML studio showing the scheduled run.  
 <br>
 <br>
-![alt text](https://github.com/sparks-ai/MLOps_Azure/blob/master/Images/Extra_pipeline_running.png)
+![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/Pipeline_experiment.png)
 <br>
-![alt text](https://github.com/sparks-ai/MLOps_Azure/blob/master/Images/Pipeline_created.png)
+![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/Pipeline_experiment_completed.png)
 <br>
-![alt text](https://github.com/sparks-ai/MLOps_Azure/blob/master/Images/Bankmarketing_Dataset_AutoML_module.png)
+![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/Pipeline_experiment_completed2.png)
 <br>
-![alt text](https://github.com/sparks-ai/MLOps_Azure/blob/master/Images/Pipeline_endpoint.png)
+![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/Pipeline_widget.png)
 <br>
-![alt text](https://github.com/sparks-ai/MLOps_Azure/blob/master/Images/Pipeline_endpoint2.png)
+![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/Pipeline_best_model.png)
 <br>
-![alt text](https://github.com/sparks-ai/MLOps_Azure/blob/master/Images/Extra_Pipeline_MLOps_project.png)
+![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/Pipeline_best_model2.png)
 <br>
-![alt text](https://github.com/sparks-ai/MLOps_Azure/blob/master/Images/Extra_Pipeline_completed.png)
+![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/Pipeline_best_model3.png)
 <br>
-![alt text](https://github.com/sparks-ai/MLOps_Azure/blob/master/Images/AutoML_experiment_completed_2.png)
+![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/Pipeline_runs.png)
 <br>
-![alt text](https://github.com/sparks-ai/MLOps_Azure/blob/master/Images/Widget_1.png)
-<br>
-![alt text](https://github.com/sparks-ai/MLOps_Azure/blob/master/Images/Best_model.png)
-<br>
-![alt text](https://github.com/sparks-ai/MLOps_Azure/blob/master/Images/Performance_model.png)
+![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/Pipeline_published.png)
 <br>
 
 <a name="recording"/>
@@ -158,10 +156,7 @@ Further documentation is in the form of a short screencast. Please go to https:/
 <a name="future"/>
 
 ## Future Improvements
-This project can be improved in a number of ways. First, a pipeline has been created to run an AutoML experiment. Several other pipelines can be constructed, e.g. that trigger retraining when new data is there or pipelines that perform data cleaning and feature engineering operations. Also, a batch inference pipeline can be constructed in order to derive inference on large samples. In addition, other metrics can be used to optimize the machine learning models. The response variable is imbalanced (see screenshot below). Sampling could be an option or using e.g. the precision-recall AUC as evaluation metric. Also running the AutoML experiment for longer and with different parameters might result in a better model.  
-<br>
-<br>
-![alt text](https://github.com/sparks-ai/MLOps_Azure/blob/master/Images/Standout_class_imbalance.png)
+This project can be improved in a number of ways. First, a pipeline has been created to run an AutoML experiment. Several other pipelines can be constructed, e.g. that trigger retraining when new data is there or pipelines that perform data cleaning and feature engineering operations. Also, a batch inference pipeline can be constructed in order to derive inference on large samples. In addition, other metrics can be used to optimize the machine learning models. Also running the AutoML experiment for longer and with different parameters might result in a better model. Next to that, collecting more data in terms of length (amount of records) and width (amount of variables) could improve results.  
 <br>
 
 <a name="standout"/>
