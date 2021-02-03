@@ -2,30 +2,72 @@
 
 ## Table of Contents  
 [Overview](#overview)  
-[Architectural Diagram](#architecture) <br>
-[Key Steps](#key_steps) <br> 
+[Scikit-learn and hyperparameter tuning](#hyperdrive) <br> 
+[AutoML key steps](#key_steps) <br> 
 [Screen Recording](#recording) <br>
 [Future improvements](#future) <br>
+[Standout Suggestions](#standout) <br>
 <br>   
 
 <a name="overview"/>
 
-## Overview
-This project is part of the Udacity Azure ML Nanodegree. The dataset contains data about house prices and characteristics. Based on this data, Azure will be used to first create a scikit-learn KNeighborsRegressor, where two hyperparameters (n_neighbors and leaf_size) will be tuned by using Azure's HyperDrive. Next, the same dataset is served to AutoML to configure a cloud-based machine learning production model, deploy it (because the performance of this model is better than the tuned KNeighborsRegressor model), and finally consume it. Besides, a pipeline will be created, published and consumed. Some of the printscreens are unclear. This is a result of the Virtual Machine used.   
+## Dataset and overview
+This project is part of the Udacity Azure ML Nanodegree. Predicting house prices using machine learning algorithms is a relevant topic. A dataset with transactional details, housing characteristics and locational characteristics for the city of Utrecht, the Netherlands has been provided by an external company. There are 51,314 rows and 80 columns (including target column). After preprocessing and feature reduction (done on a local computer), the dataset has been imported to the Azure ecosystem, after which models have been trained by using a KNeighborsRegressor scikit-learn model which is tuned by using Azure's HyperDrive and Automated ML. Model performance is evaluated and the best model is deployed and compared against performance benchmarks given by actual valuers. Besides, a pipeline will be created, published and consumed. Some of the printscreens are unclear. This is a result of the Virtual Machine used.   
 <br>
 
-<a name="architecture"/>
+### Task
+The task is to explain house prices by using building and locational characteristics. In literature, this is called hedonic regression. The dependent variable is the price and the other variables are features. 
+<br>
 
-## Architectural Diagram
+### Access
+The dataset will be imported in the Azure ecosystem from local files. 
+<br>
+
+### Architectural Diagram
 The steps to take are visualized in the figure below (source: taken from the Udacity Azure Machine Learning Engineer Nanodegree, Capstone project description).
 <br>
 <br>
 ![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/capstone-diagram_Udacity.png)
 <br>
 
+<a name="hyperdrive"/>
+
+## Scikit-learn and hyperparameter tuning
+First, I chose to train a KNeighborsRegressor model by using Scikit-learn. The reason I chose for the KNeighborsRegressor is that within real estate valuation, professional valuers often look for the top-X "best comparables" in the neighborhood. This algorithm mimicks this behavior, which is why I thought this would be a good benchmark. Also, the model is intuitively simple and therefore explainable. The two most important hyperparamters that I tuned for the algorithm are n_neighbors and leaf_size. The amount of neighbors relates to how many comparables in the direct neighborhood should be evaluated. This is where I know professional valuers often pick their top-3 or top-5. This parameter could take values 2, 5, and 10. Then the leaf_size. This determines the complexity and the amount of variables used. Given that professional valuers look at location and basic building characteristics, I chose ranges for this hyperparameter between 15 and 50. Location in itself can of course be decomposed into numerous variables in the dataset.  
+<br>
+
+### Results
+The best resulting KNeighborsRegressor model had as hyperparameters a value for n_neighbors of 2 and for leaf_size of 42. This is interesting as it means being very local (given the amount for n_neighbors) but achieving complexity on this local level by using many variables. In literature, the mean average error (MAE) is often used as a metric for evaluating results of house price prediciton algorithms. For this model, the MAE is 525.5451960245264. 
+This model could potentially be improved by broadening the hyperparameter space (e.g. n_neighbors between 1 and 10 and leaf_size between 15 and 80). Also, there are more hyperparameters than could have been tuned, e.g. the algorithm (auto vs. ball_tree vs kd_tree vs brute), the power parameter for the Minkowski metric and the distance metric to use.  
+<br>
+<br>
+The screenshots below provide more insights into the model and its results. These can also be found in the notebook in the directory. 
+<br>
+<br>
+Model registered:
+<br>
+![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/Hyperdrive_model_registered.png)
+<br>
+Completed run:
+<br>
+![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/Hyperdrive_widget_1.png)
+<br>
+Best metrics:
+<br>
+![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/Hyperdrive_widget_2.png)
+<br>
+End results:
+<br>
+![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/Hyperdrive_outcomes.png)
+<br>
+Model registered: 
+<br>
+![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/Hyperdrive_best_model_run_id_registered.png)
+<br>
+
 <a name="key_steps"/>
 
-## Key Steps
+## AutoML Key Steps
 The Key steps follow the architectural diagram and provide more details via screenshots. 
 <br>
 
@@ -110,7 +152,7 @@ Apart from mainly clicking around in Azure Machine Learning Studio, we can progr
 <a name="recording"/>
 
 ## Screen Recording
-Further documentation is in the form of a short screencast. Please go to https://vimeo.com/487342635 to see a screencast of the provided work on Azure. 
+Further documentation is in the form of a short screencast. Please go to https://vimeo.com/508176649 to see a screencast of the provided work on Azure. 
 <br>
 
 <a name="future"/>
@@ -121,3 +163,8 @@ This project can be improved in a number of ways. First, a pipeline has been cre
 <br>
 ![alt text](https://github.com/sparks-ai/MLOps_Azure/blob/master/Images/Standout_class_imbalance.png)
 <br>
+
+<a name="standout"/>
+
+## Standout Suggestions
+Next to deploying a model, I've also deployed a pipeline. Also, I implemented logging for the model. 
