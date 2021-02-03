@@ -20,7 +20,7 @@ This project is part of the Udacity Azure ML Nanodegree. The dataset contains da
 The steps to take are visualized in the figure below.
 <br>
 <br>
-![alt text](https://github.com/sparks-ai/MLOps_Azure/blob/master/Images/Architecture.png)
+![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/master/Images/capstone-diagram_Udacity.png)
 <br>
 
 <a name="key_steps"/>
