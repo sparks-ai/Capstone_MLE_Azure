@@ -83,9 +83,9 @@ The dataset is uploaded and a compute cluster is created in order to configure a
 <br>
 ![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/Best_model1.png)
 <br>
-![alt text](https://github.com/sparks-ai/MLOps_Azure/blob/master/Images/AutoML_Best_model2.png)
+![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/Best_model2.png)
 <br>
-![alt text](https://github.com/sparks-ai/MLOps_Azure/blob/master/Images/AutoML_Best_model3.png)
+![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/Best_model3.png)
 <br>
 
 ### Results
