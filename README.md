@@ -3,7 +3,8 @@
 ## Table of Contents  
 [Dataset and overview](#overview)  
 [Scikit-learn and hyperparameter tuning](#hyperdrive) <br> 
-[AutoML steps](#key_steps) <br> 
+[AutoML steps by manually clicking around](#key_steps) <br> 
+[AutoML steps by using the Python SDK](#AutoML_SDK) <br> 
 [Screen Recording](#recording) <br>
 [Future improvements](#future) <br>
 [Standout Suggestions](#standout) <br>
@@ -20,7 +21,7 @@ The task is to explain house prices by using building and locational characteris
 <br>
 
 ### Access
-The dataset will be imported in the Azure ecosystem from local files. 
+The dataset has been made available by a third party as .csv file. They've sent this data to me by WeTransfer. In order to get the data in the Azure ecosystem, I downloaded the data from the WeTransfer link on the computer in the workspace. I've put the data on the desktop. In order to get the data into Azure, I went to the Azure Portal and within the Machine Learning studio I went to the dataset tab. There, I could import the data from local files. I've browsed to the location on the desktop and imported the data. The encoding was UTF-8 and the first line contained the headers. Azure puts the data into a blob storage. From within a Python Notebook, we can import data by first setting the workspace by using the subscription_id, resource_group and workspace_name. The dataset can then be imported with the function Dataset.get_by_name and using the workspace and the name of the dataset. The dataset is imported as a tabular dataset. In the Python Notebook, we can do analysis by converting it to a pandas dataframe. However, the AutoML model used the Tabular dataset.    
 <br>
 
 ### Architectural Diagram
@@ -67,7 +68,7 @@ Model registered:
 
 <a name="key_steps"/>
 
-## AutoML steps
+## AutoML steps by manually clicking around
 This section will highlight all steps for the AutoML model, as well as for publishing and pipeline endpoint (as standout suggestion).
 <br>
 
@@ -145,6 +146,27 @@ Apart from mainly clicking around in Azure Machine Learning Studio, we can progr
 ![Pipeline_runs](Images/Pipeline_runs.png)
 <br>
 ![Pipeline_published](Images/Pipeline_published.png)
+<br>
+
+<a name="AutoML_SDK"/>
+
+## AutoML steps by using the Python SDK
+The same AutoML model can be derived by using code in the Python SDK. In this section, the steps to derive the AutoML model by means of code will be discussed.  
+<br>
+In the directory, there's a Python Notebook called AutoML_SDK, which contains the steps to run an AutoML experiment with configered settings, retrieve the best model and register this model.  
+<br>
+
+### Results
+The best resulting KNeighborsRegressor model had as hyperparameters a value for n_neighbors of 2 and for leaf_size of 42. This is interesting as it means being very local (given the amount for n_neighbors) but achieving complexity on this local level by using many variables. In literature, the mean average error (MAE) is often used as a metric for evaluating results of house price prediciton algorithms. For this model, the MAE is 525.55. 
+This model could potentially be improved by broadening the hyperparameter space (e.g. n_neighbors between 1 and 10 and leaf_size between 15 and 80). Also, there are more hyperparameters than could have been tuned, e.g. the algorithm (auto vs. ball_tree vs kd_tree vs brute), the power parameter for the Minkowski metric and the distance metric to use.  
+<br>
+<br>
+The screenshots below provide more insights into the model and its results. These can also be found in the notebook in the directory. 
+<br>
+<br>
+Model registered:
+<br>
+![Model_registered](Images/Hyperdrive_model_registered.png)
 <br>
 
 <a name="recording"/>
