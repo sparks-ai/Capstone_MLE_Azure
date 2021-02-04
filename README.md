@@ -157,7 +157,7 @@ In the directory, there's a Python Notebook called AutoML_SDK, which contains th
 <br>
 
 ### Results
-The best resulting VotingEnsemble model has an MAE of 295.76. The amount of estimators is 25, the objective is to optimize the squarederror and other hyperparameters are given in the screenshots below. This VotingEnsemble combines the top performing models and we can see the weights of models. The best performing model in the VotingEnsemble is a LightGBMRegressor, which uses 100 estimators (and more hyperparameters as in the printscreens below). This model has been registered and is now available in the models section of Azure ML Studio. 
+The best resulting VotingEnsemble model has an MAE of 295.76 (second run slightly higher: 307.09). The amount of estimators is 25, the objective is to optimize the squarederror and other hyperparameters are given in the screenshots below. This VotingEnsemble combines the top performing models and we can see the weights of models. The best performing model in the VotingEnsemble is a LightGBMRegressor, which uses 100 estimators (and more hyperparameters as in the printscreens below). This model has been registered and is now available in the models section of Azure ML Studio. 
 <br>
 <br>
 The screenshots below provide more insights into the model and its results. These can also be partly found in the notebook in the directory. 
@@ -179,6 +179,13 @@ The screenshots below provide more insights into the model and its results. Thes
 <br>
 ![Final_estimator](Images/Best_model_registered.png)
 <br>
+![Final_estimator](Images/AutoML_register_and_deploy.png)
+<br>
+![Final_estimator](Images/Webservice_live.png)
+<br>
+![Final_estimator](Images/Webservice_interaction.png)
+<br>
+
 
 <a name="recording"/>
 
