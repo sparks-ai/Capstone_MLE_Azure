@@ -28,6 +28,7 @@ The steps to take are visualized in the figure below (source: taken from the Uda
 <br>
 <br>
 ![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/capstone-diagram_Udacity.png)
+![Pipeline Architecture](images/capstone-diagram_Udacity.png)
 <br>
 
 <a name="hyperdrive"/>
