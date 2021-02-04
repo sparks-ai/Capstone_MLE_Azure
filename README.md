@@ -27,7 +27,6 @@ The dataset will be imported in the Azure ecosystem from local files.
 The steps to take are visualized in the figure below (source: taken from the Udacity Azure Machine Learning Engineer Nanodegree, Capstone project description).
 <br>
 <br>
-![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/capstone-diagram_Udacity.png)
 ![Diagram](Images/capstone-diagram_Udacity.png)
 <br>
 
@@ -47,23 +46,23 @@ The screenshots below provide more insights into the model and its results. Thes
 <br>
 Model registered:
 <br>
-![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/Hyperdrive_model_registered.png)
+![Model_registered](Images/Hyperdrive_model_registered.png)
 <br>
 Completed run:
 <br>
-![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/Hyperdrive_widget_1.png)
+![Completed_run](Images/Hyperdrive_widget_1.png)
 <br>
 Best metrics:
 <br>
-![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/Hyperdrive_widget_2.png)
+![Best_metrics](Images/Hyperdrive_widget_2.png)
 <br>
 End results:
 <br>
-![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/Hyperdrive_outcomes.png)
+![End_results](Images/Hyperdrive_outcomes.png)
 <br>
 Model registered: 
 <br>
-![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/Hyperdrive_best_model_run_id_registered.png)
+![Model_registered2](Images/Hyperdrive_best_model_run_id_registered.png)
 <br>
 
 <a name="key_steps"/>
@@ -80,13 +79,13 @@ The Azure Machine Learning Extension needs to be installed in order to interact 
 The dataset is uploaded and a compute cluster is created in order to configure an AutoML experiment. The AutoML experiment is a regression problem with a numeric response. The exit criteria are such that the default 3 hours are left as is and the concurrency is set from default to 5. The reason for this is that the dataset is relatively small, but I want to be sure to get the best possible model. The screenshots below show that the dataset is available, the AutoML experiment is completed and the resulting best model.
 <br>
 <br>
-![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/Dataset_active.png)
+![Dataset_active](Images/Dataset_active.png)
 <br>
-![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/Best_model1.png)
+![Best_mod1](Images/Best_model1.png)
 <br>
-![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/Best_model2.png)
+![Best_mod2](Images/Best_model2.png)
 <br>
-![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/Best_model3.png)
+![Best_mod3](Images/Best_model3.png)
 <br>
 
 ### Results
@@ -97,55 +96,55 @@ This model could potentially be improved by including deep learning models as we
 Now that the experiment is completed and the best model is selected (the VotingEnsemble), it can be deployed into production. The voting ensemble is an ensemble learner that takes an "average" of the other top-performing models. Within Azure Machine Learning Studio, this model can be clicked and deployed with the click on a button. Deploying it will allow to interact with the HTTP API service and interact with the model by sending data over POST requests. Within the deployment settings, authentication is enabled and the model is deployed by means of an Azure Container Instance (ACI). The screenshot below shows the deployment settings for the model.    
 <br>
 <br>
-![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/Endpoint_model.png)
+![Endpoint_model](Images/Endpoint_model.png)
 <br>
 
 ### Logging
 In order to retrieve logs, Application Insights has been enabled. This can be done in two ways: either as part of the deploy settings (checkbox) or afterwards via the terminal. For the last option, the az needs to be installed as well as the Python SDK for Azure. The below screenshots show that Application Insights are enabled. 
 <br>
 <br>
-![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/Logging.png)
+![Logging](Images/Logging.png)
 <br>
 
 ### Documentation
 Swagger documentation helps in explaining what the deployed model needs as input in order to deliver a valid response. For the deployed model, a Swagger JSON file can be downloaded from within Azure (within the Endpoints section by clicking on the deployed model). There are two important parts of the Swagger documentation: a swagger.sh file that downloads the latest Swagger container and a serve.py file that will start a Python server. All three files need to be in the same directory. When Swagger runs on localhost, it can be accessed via the webbrowser. The screenshots below show that Swagger is running on localhost. 
 <br>
 <br>
-![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/Swagger1.png)
+![Swagger1](Images/Swagger1.png)
 <br>
-![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/Swagger2.png)
+![Swagger2](Images/Swagger2.png)
 <br>
 
 ### Consuming model endpoints
 When the model is deployed, the scoring_uri and the key can be copied from Azure and pasted in the endpoint.py file. The endpoint.py file contains a JSON payload (2 cases where all the independent variables are provided and which can be used to derive inference on). The endpoint.py file can be executed in the terminal. The screenshots below shows the endpoint.py script that is running against the API and producing JSON output (data.json file in the directory).  
 <br>
 <br>
-![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/REST_endpoint_URL.png)
+![Rest](Images/REST_endpoint_URL.png)
 <br>
-![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/Data_sent_to_model_endpoint.png)
+![Data_to_model](Images/Data_sent_to_model_endpoint.png)
 <br>
 
 ### Create, Publish and Consume a Pipeline
 Apart from mainly clicking around in Azure Machine Learning Studio, we can programmatically achieve the same by means of using the Python SDK. A Jupyter notebook is provided which is adjusted here and there. This notebook is available in the directory. Please have a look to see the documentation and the resulting output. The steps in this notebook are: creating an experiment in an existing workspace, creating or attaching an existing AmlCompute to a workspace, defining data loading in a TabularDataset, configuring AutoML using AutoMLConfig, using AutoMLStep, training the model using AmlCompute, exploring the results and testing the best fitted model. The screenshots below show that the pipeline has been created, there is a pipeline endpoint, the REST endpoint and a status of active, the Jupyter Notebook widget output and the ML studio showing the scheduled run.  
 <br>
 <br>
-![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/Pipeline_experiment.png)
+![Exp](Images/Pipeline_experiment.png)
 <br>
-![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/Pipeline_experiment_completed.png)
+![Exp_completed](Images/Pipeline_experiment_completed.png)
 <br>
-![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/Pipeline_experiment_completed2.png)
+![Exp_completed2](Images/Pipeline_experiment_completed2.png)
 <br>
-![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/Pipeline_widget.png)
+![Pipeline_widget](Images/Pipeline_widget.png)
 <br>
-![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/Pipeline_best_model.png)
+![Pipeline_best_model](Images/Pipeline_best_model.png)
 <br>
-![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/Pipeline_best_model2.png)
+![Pipeline_best_model2](Images/Pipeline_best_model2.png)
 <br>
-![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/Pipeline_best_model3.png)
+![Pipeline_best_model3](Images/Pipeline_best_model3.png)
 <br>
-![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/Pipeline_runs.png)
+![Pipeline_runs](Images/Pipeline_runs.png)
 <br>
-![alt text](https://github.com/sparks-ai/Capstone_MLE_Azure/blob/main/Images/Pipeline_published.png)
+![Pipeline_published](Images/Pipeline_published.png)
 <br>
 
 <a name="recording"/>
