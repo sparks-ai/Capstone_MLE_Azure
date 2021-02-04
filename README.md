@@ -153,7 +153,7 @@ Apart from mainly clicking around in Azure Machine Learning Studio, we can progr
 ## AutoML steps by using the Python SDK
 The same AutoML model can be derived by using code in the Python SDK. In this section, the steps to derive the AutoML model by means of code will be discussed.  
 <br>
-In the directory, there's a Python Notebook called AutoML_SDK, which contains the steps to run an AutoML experiment with configered settings, retrieve the best model and register this model.  
+In the directory, there's a Python Notebook called AutoML_SDK, which contains the steps to run an AutoML experiment with configered settings, retrieve the best model and register this model. The notebook is not documented, as it is very similar to the other notebook with the AutoML pipeline.   
 <br>
 
 ### Results
