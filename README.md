@@ -164,9 +164,22 @@ This model could potentially be improved by broadening the hyperparameter space 
 The screenshots below provide more insights into the model and its results. These can also be found in the notebook in the directory. 
 <br>
 <br>
-Model registered:
 <br>
-![Model_registered](Images/Hyperdrive_model_registered.png)
+![Run](Images/AutoML_run.png)
+<br>
+![Mod1](Images/AutoML_run_best_model1.png)
+<br>
+![Mod2](Images/AutoML_run_best_model2.png)
+<br>
+![Config](Images/AutoML_config.png)
+<br>
+![Retrieving_best_model](Images/Retrieving_best_model.png)
+<br>
+![Best](Images/Best_model.png)
+<br>
+![Final_estimator](Images/Retrieving_best_model_final_estimator.png)
+<br>
+![Final_estimator](Images/Best_model_registered.png)
 <br>
 
 <a name="recording"/>
