@@ -151,18 +151,16 @@ Apart from mainly clicking around in Azure Machine Learning Studio, we can progr
 <a name="AutoML_SDK"/>
 
 ## AutoML steps by using the Python SDK
-The same AutoML model can be derived by using code in the Python SDK. In this section, the steps to derive the AutoML model by means of code will be discussed.  
+The same AutoML model can be derived by using code in the Python SDK. In this section, the steps to derive the AutoML model by means of code will be discussed.   
 <br>
-In the directory, there's a Python Notebook called AutoML_SDK, which contains the steps to run an AutoML experiment with configered settings, retrieve the best model and register this model. The notebook is not documented, as it is very similar to the other notebook with the AutoML pipeline.   
+In the directory, there's a Python Notebook called AutoML_SDK, which contains the steps to run an AutoML experiment with configered settings, retrieve the best model and register this model. The notebook is not documented, as it is very similar to the other notebook with the AutoML pipeline. The AutoMLConfig file is constructed in such a way that it uses the created compute_target, the task is set to regression, the dataset contains the dataset and the validation set size is similar to the settings of the scikit-learn HyperDrive run (20%). Early stopping is enabled in order to stop if results on the validation set show no further improvements. The intention of this is to reduce training time, which comes in handy when many models are trained, as is the case with AutoML. Featurization is set to auto, which means that within the AutoML run, automated feature engineering is performed. This can increase model performance. Logs are written to a file in order to more easily debug if errors arise. In the automl_settings, a timeout in minutes of the whole experiment is set to 30 (as this example is just to show that AutoML can be performed via the SDK) and the max_concurrent_iterations is set to 5. This means that 5 models can be trained in parallel. The primary metric to optimize for the AutoML models is the spearman_correlation. This is the default metric for regression problems. I first thought to change this to the MAE, as this metric is compared between models. But later I changed it back to spearman_correlation and found a better overall performance (also a slightly better MAE for the resulting model).     
 <br>
 
 ### Results
-The best resulting KNeighborsRegressor model had as hyperparameters a value for n_neighbors of 2 and for leaf_size of 42. This is interesting as it means being very local (given the amount for n_neighbors) but achieving complexity on this local level by using many variables. In literature, the mean average error (MAE) is often used as a metric for evaluating results of house price prediciton algorithms. For this model, the MAE is 525.55. 
-This model could potentially be improved by broadening the hyperparameter space (e.g. n_neighbors between 1 and 10 and leaf_size between 15 and 80). Also, there are more hyperparameters than could have been tuned, e.g. the algorithm (auto vs. ball_tree vs kd_tree vs brute), the power parameter for the Minkowski metric and the distance metric to use.  
+The best resulting VotingEnsemble model has an MAE of 295.76. The amount of estimators is 25, the objective is to optimize the squarederror and other hyperparameters are given in the screenshots below. This VotingEnsemble combines the top performing models and we can see the weights of models. The best performing model in the VotingEnsemble is a LightGBMRegressor, which uses 100 estimators (and more hyperparameters as in the printscreens below). This model has been registered and is now available in the models section of Azure ML Studio. 
 <br>
 <br>
-The screenshots below provide more insights into the model and its results. These can also be found in the notebook in the directory. 
-<br>
+The screenshots below provide more insights into the model and its results. These can also be partly found in the notebook in the directory. 
 <br>
 <br>
 ![Run](Images/AutoML_run.png)
